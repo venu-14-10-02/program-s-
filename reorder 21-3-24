@@ -1,0 +1,73 @@
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+def split_linked_list(head):
+    if not head or not head.next:
+        return head, None  # If the list is empty or contains only one node, return the list as is
+
+    slow = head
+    fast = head.next
+
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+
+    second_head = slow.next
+    slow.next = None  # Cut the list
+
+    return head, second_head
+
+def reverse_linked_list_iterative(head):
+    prev = None
+    current = head
+    while current:
+        next_node = current.next
+        current.next = prev
+        prev = current
+        current = next_node
+    return prev 
+
+def merge_alternate_lists(first_head, second_head):
+    new_head = ListNode(None)
+    current = new_head
+    while first_head and second_head:
+        current.next = first_head
+        first_head = first_head.next
+        current = current.next
+
+        current.next = second_head
+        second_head = second_head.next
+        current = current.next
+
+    # If any list has remaining elements, append them to the new list
+    if first_head:
+        current.next = first_head
+    if second_head:
+        current.next = second_head
+
+    return new_head.next  # Skip the dummy node
+
+# Create a linked list
+head = ListNode(10)
+head.next = ListNode(20)
+head.next.next = ListNode(30)
+head.next.next.next = ListNode(40)
+head.next.next.next.next = ListNode(50)
+
+# Split the linked list
+first_half, second_half = split_linked_list(head)
+
+# Reverse the second half
+reversed_second_half = reverse_linked_list_iterative(second_half)
+
+# Merge the two halves by alternating nodes
+result = merge_alternate_lists(first_half, reversed_second_half)
+
+# Display the merged linked list
+current = result
+while current:
+    print(current.val, end=" ")
+    current = current.next
+
