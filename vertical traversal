@@ -1,0 +1,32 @@
+class TreeNode:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+
+def vertical_traversal(root):
+    vertical_levels = {}
+    def traverse(node, distance, level):
+        if node is None:
+            return
+        if distance not in vertical_levels:
+            vertical_levels[distance] = []
+        vertical_levels[distance].append((node.value, level))
+        traverse(node.left, distance - 1, level + 1)
+        traverse(node.right, distance + 1, level + 1)
+    traverse(root, 0, 0)
+    for distance in sorted(vertical_levels.keys()):
+        nodes = vertical_levels[distance]
+        nodes.sort(key=lambda x: (x[1], x[0]))
+        print(f"Vertical distance {distance}: {[node[0] for node in nodes]}")
+
+root = TreeNode('A')
+root.left = TreeNode('B')
+root.right = TreeNode('C')
+root.left.left = TreeNode('D')
+root.left.right = TreeNode('E')
+root.right.left = TreeNode('F')
+root.right.right = TreeNode('G')
+
+print("Vertical traversal of binary tree:")
+vertical_traversal(root)
