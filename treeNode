@@ -1,0 +1,55 @@
+class TreeNode:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+
+def left_right_view(root, side):
+    if not root:
+        return
+    
+    result = {}
+    queue = [(root, 0)]
+    
+    while queue:
+        node, level = queue.pop(0)
+        if level not in result:
+            result[level] = node.value
+        if node.left:
+            queue.append((node.left, level + 1))
+        if node.right:
+            queue.append((node.right, level + 1))
+        
+    if side == 'L':
+        print("\nLeft view")
+        for level in range(len(result)):
+            print(result[level], end=",")
+    elif side == 'R':
+        print("\nRight view")
+        right_view = []
+        queue = [(root, 0)]
+        while queue:
+            node, level = queue.pop(0)
+            if len(right_view) == level:
+                right_view.append(node.value)
+            else:
+                right_view[level] = node.value
+            if node.right:
+                queue.append((node.right, level + 1))
+            if node.left:
+                queue.append((node.left, level + 1))
+        print(",".join(map(str, right_view)))
+    else:
+        print("Invalid side argument. Use 'L' for left view or 'R' for right view.")
+
+root = TreeNode('A')
+root.left = TreeNode('B')
+root.right = TreeNode('C')
+root.left.left = TreeNode('D')
+root.left.right = TreeNode('E')
+root.right.left = TreeNode('F')
+root.right.right = TreeNode('G')
+root.right.right.left = TreeNode('H')
+
+left_right_view(root, 'L')
+left_right_view(root, 'R')
