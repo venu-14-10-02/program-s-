@@ -1,0 +1,37 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+        self.hd = 0
+
+def topview(root):
+    if root is None:
+        return
+    m = {}
+    q = [(root, 0)]
+    while q:
+        node, hd = q.pop(0)
+        if hd not in m:
+            m[hd] = node.data
+        if node.left:
+            q.append((node.left, hd - 1))
+        if node.right:
+            q.append((node.right, hd + 1))
+    print("Top view:")
+    for hd in sorted(m):
+        print(m[hd], end=", ")
+    print()
+
+def newnode(data):
+    return Node(data)
+
+root = newnode('A')
+root.left = newnode('B')
+root.right = newnode('C')
+root.left.left = newnode('D')
+root.left.right = newnode('E')
+root.right.left = newnode('F')
+root.right.right = newnode('G')
+
+topview(root)
