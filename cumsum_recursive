@@ -1,0 +1,24 @@
+def cumsum_recursive(n):
+    if n == 0:
+        return 0
+    else:
+        return n + cumsum_recursive(n - 1)
+def cumsum_iterative(n):
+    result = 0
+    for i in range(1, n + 1):
+        result += i
+    return result
+n=int(input())
+print("sum=",cumsum_recursive(n))
+print("sum=",cumsum_iterative(n))
+
+def cumsum_dynamic(n):
+    cumsum_array = [0] * (n + 1)
+    for i in range(1, n + 1):
+        cumsum_array[i] = cumsum_array[i - 1] + i
+    
+    return cumsum_array[n]
+n=int(input())
+print(f"Cumulative sum up to {n} (dynamic programming):", cumsum_dynamic(n))
+
+
